@@ -6,9 +6,6 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Extension = ExtensionUtils.getCurrentExtension();
 const Settings = Extension.imports.settings;
 
-function LOG(m){
-	global.log("[impatience] " + m);
-};
 function Ext() {
 	this._init.apply(this, arguments);
 };
@@ -25,7 +22,6 @@ Ext.prototype._init = function() {
 Ext.prototype.enable = function() {
 	this.enabled = true;
 	var pref = (new Settings.Prefs()).SPEED;
-	LOG("enabled");
 	var binding = pref.changed(Lang.bind(this, function() {
 		this.set_speed(pref.get());
 	}));
@@ -44,13 +40,11 @@ Ext.prototype.disable = function() {
 
 Ext.prototype.set_speed = function(new_speed) {
 	if(!this.enabled) {
-		LOG("NOT setting new speed, since the extension is disabled.");
 		return;
 	}
 	if(new_speed !== undefined) {
 		this.modified_speed = new_speed;
 	}
-	LOG("setting new speed: " + this.modified_speed);
 	St.set_slow_down_factor(this.modified_speed);
 };
 
